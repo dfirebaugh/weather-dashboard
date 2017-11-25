@@ -191,6 +191,12 @@ class Weather extends Component {
       case "Chance Rain Showers":
         return icons.rain;
 
+      case "Chance Snow":
+        return icons.snow;
+
+      case "Chance Hail":
+        return icons.hail;
+
       case "Sleet":
         return icons.sleet;
 
