@@ -185,7 +185,10 @@ class Weather extends Component {
       case "Partly Sunny":
         return icons.partlysunny;
 
-      case "Rain":
+      case "Chance Rain Showers then Partly Cloudy":
+        return icons.rain
+
+      case "Chance Rain Showers":
         return icons.rain;
 
       case "Sleet":
