@@ -5,12 +5,11 @@ import Icons from './Icons.js';
 class Weather extends Component {
   constructor(){
     super();
-    this.state = {city:'',state:'',valid:true,loading:true}
+    this.state = {city:'',state:'',valid:false,loading:true}
 
   }
   componentDidMount(){
     this.getCity();
-    console.log('getCity')
   }
   get(url, header) {
     return new Promise(function(resolve, reject) {
@@ -39,7 +38,7 @@ class Weather extends Component {
 
     this.get(`${api.url}points/${lat},${lon}`)
         .then(function(response) {
-          console.log(response)
+          // console.log(response)
           let data = JSON.parse(response);
           let city = data.properties.relativeLocation.properties.city
           let state = data.properties.relativeLocation.properties.state
@@ -79,7 +78,7 @@ class Weather extends Component {
           // that.getPhoto();
         })
         .catch(function(error) {
-          console.log(error);
+          // console.log(error);
           that.setState({valid:false})
           that.getCity();
           that.getForecast();
@@ -90,12 +89,13 @@ class Weather extends Component {
     let forecast,now;
     let cardStyle1 = {
       fontSize:'2em',
+
       // marginLeft:0
       // marginTop:-4,
       // marginRight:30,
       // position:'absolute',
       // paddingLeft:'2.7em',
-      bottom:0
+      // bottom:0
     }
     let cardStyle0 = {
       fontSize:'1em'
@@ -105,7 +105,7 @@ class Weather extends Component {
       // opacity:1
     }
     let cardStyle3={
-      fontSize:18
+      fontSize:18,
     }
 
 
@@ -115,105 +115,118 @@ class Weather extends Component {
     </div>
     let city = <h3>{this.state.city} {this.state.state}</h3>
 
-    let getIcon = (item) => {
-
-      let icons = [{
-        term:'Flurries',
-        img:'wu-flurries'
-      },{ term:'Rain',
-        img:'wu-rain'
-      },
-      {
-        term:'clear',
-        img:'wu-clear'
-      },
-      {
-        term:'Clear',
-        img:'wu-clear'
-      },
-      {
-        term:'Sunny',
-        img:'wu-mostlysunny'
-      },
-      {
-        term:'Sleet',
-        img:'wu-sleet'
-      },
-      {
-        term:'Snow',
-        img:'wu-snow'
-      },
-      {
-        term:'Storms',
-        img:'wu-chancetstorms'
-      },
-      {
-        term:'Cloudy',
-        img:'wu-flurries'
-      },
-      {
-        term:'Fog',
-        img:'wu-fog'
-      },
-      {
-        term:'Hazy',
-        img:'wu-hazy'
-      },
-      {
-        term:'Mostly Cloudy',
-        img:'wu-mostlycloudy'
-      },
-      {
-        term:'Hail',
-        img:'wu-hail'
-      },
-      {
-        term:'Thunder',
-        img:'wu-tstorms'
-      }
-    ]
-
-    return icons.map((icon,i) =>{
-      if(item.shortForecast.includes(icon.term)){
-        console.log(item.shortForecast.includes(icon.term), icon.term)
-        console.log(`<i className='wu wu-black wu-32 ${icon.img}'</i>`)
-        return ` ${icon.img} `
-      }
-
-    })
-
+    let getIcon = item => {
+  let icons = [
+    {
+      term: "Flurries",
+      img: "wu-flurries"
+    },
+    {
+      term: "Rain",
+      img: "wu-rain"
+    },
+    {
+      term: "clear",
+      img: "wu-clear"
+    },
+    {
+      term: "Clear",
+      img: "wu-clear"
+    },
+    {
+      term: "Sunny",
+      img: "wu-mostlysunny"
+    },
+    {
+      term: "Sleet",
+      img: "wu-sleet"
+    },
+    {
+      term: "Snow",
+      img: "wu-snow"
+    },
+    {
+      term: "Storms",
+      img: "wu-chancetstorms"
+    },
+    {
+      term: "Cloudy",
+      img: "wu-flurries"
+    },
+    {
+      term: "Fog",
+      img: "wu-fog"
+    },
+    {
+      term: "Hazy",
+      img: "wu-hazy"
+    },
+    {
+      term: "Mostly Cloudy",
+      img: "wu-mostlycloudy"
+    },
+    {
+      term: "Hail",
+      img: "wu-hail"
+    },
+    {
+      term: "Thunder",
+      img: "wu-tstorms"
     }
+  ];
 
-    console.log(this.state.valid)
-    if(this.forecast){
-      now = <div className="today col-md-12 col-md-offset-5">
-              {" "}
-              {this.forecast[0].name}: <p>{this.forecast[0].detailedForecast}</p>
-              <p style={cardStyle1} className="col-md-18">
-              <Icons isToday={"true"} img={getIcon(this.forecast[0])} />
-              {this.forecast[0].temperature} {this.forecast[0].temperatureUnit}
-              </p>
-            </div>;
-
-      forecast = this.forecast.map(function(item,index){
-                  console.log(item.name,item.shortForecast)
-                  if(index > 0){
-                    return <div key={index} style={cardStyle0} className='forecast col-md-3 col-md-offset-5' tooltip={item.detailedForecast}>
-
-
-                {item.name}:
-                <div style={cardStyle2} className='container '>
-                  <p style={cardStyle1} className='col-md-18 temperature' >
-                  {item.temperature} {item.temperatureUnit}</p>
-
-                  <Icons isToday={'false'} img={getIcon(item)}/>
-                  <p style={cardStyle3}>{item.shortForecast}</p>
-                  </div>
-                </div>
-        }
-      })
-      // <div style={cardStyle3}>{item.detailedForecast}</div>
+  return icons.map((icon, i) => {
+    if (item.shortForecast.includes(icon.term)) {
+      console.log(item.shortForecast.includes(icon.term), icon.term);
+      // console.log(`<i className='wu wu-black wu-32 ${icon.img}'</i>`)
+      return ` ${icon.img} `;
     }
+    return false;
+  });
+};
+
+console.log("Valid Location:", this.state.valid);
+if (this.forecast) {
+  now = (
+    <div className=" col-md-12">
+      {" "}
+      {this.forecast[0].name}:
+      <div className="row today">
+        <p style={cardStyle1} className="col-md-3">
+          <Icons isToday={true} img={getIcon(this.forecast[0])} />
+          {this.forecast[0].temperature} {this.forecast[0].temperatureUnit}
+        </p>
+        <p className="col-md-6">{this.forecast[0].detailedForecast}</p>
+      </div>
+    </div>
+  );
+
+  forecast = this.forecast.map(function(item, index) {
+    console.log(item.name, item.shortForecast);
+    if (index > 0) {
+      return (
+        <div
+          key={index}
+          style={cardStyle0}
+          className="forecast col-md-3 col-md-offset-5"
+          tooltip={item.detailedForecast}
+        >
+          {item.name}:
+          <div style={cardStyle2} className="container ">
+            <p style={cardStyle1} className="col-md-18 temperature">
+              {item.temperature} {item.temperatureUnit}
+            </p>
+
+            <Icons isToday={false} img={getIcon(item)} />
+            <div className="shortForecast" style={cardStyle3}>{item.shortForecast}</div>
+          </div>
+        </div>
+      );
+    }
+  });
+  // <div style={cardStyle3}>{item.detailedForecast}</div>
+}
+
     return (
       <div className="weather">
         <header className="App-header">
@@ -223,7 +236,7 @@ class Weather extends Component {
           {(this.state.loading ? <div className="error">You Must Allow Location Access </div> : "" )}
           {(this.state.valid ? "" :  <h5 className='error'>Unable to pull your coordinates.  Using demo location</h5>)}
           {now}
-        <div className="container bottom-align-text flex-container">{(this.forecast ? forecast : "")}</div>
+        <div className="row-fluid scroll container">{(this.forecast ? forecast : "")}</div>
         </div>
       </div>
     );

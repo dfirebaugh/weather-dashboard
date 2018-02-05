@@ -5,9 +5,11 @@ class Icons extends Component {
   render() {
     let today = <i className={`wu wu-black todaything weather-icons wu-128 ${this.props.img}`}></i>
     let daily = <i className={`wu wu-black weather-icons wu-128 ${this.props.img}`}></i>
+    console.log('isToday:',this.props.isToday)
+
     return (
 
-      (this.props.isToday ? daily : today)
+      (this.props.isToday ? today : daily)
 
 
 
